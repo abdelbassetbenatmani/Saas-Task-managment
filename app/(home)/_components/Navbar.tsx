@@ -5,9 +5,9 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <header className=" w-full fixed top-0 border-b shadow-md bg-white px-6 md:px-28 flex items-center">
+    <header className="w-full fixed top-0 border-b shadow-md bg-white px-6 md:px-28 flex items-center z-30">
       <div className="md:max-w-screen-2xl w-full flex items-center justify-between py-10 mx-auto">
-        <Logo />
+        <Logo color="dark" />
         <nav className="flex space-x-3 items-center">
           <div className="hidden md:flex space-x-3 items-center font-semibold ">
            
