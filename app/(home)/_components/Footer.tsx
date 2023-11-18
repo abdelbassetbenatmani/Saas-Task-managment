@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
         <div>
           <h2 className="text-white text-2xl">Quick links</h2>
-          <ul className="text-[#AFAFAF] text-sm mt-2 flex flex-col space-y-3 mt-4">
+          <ul className="text-[#AFAFAF] text-sm flex flex-col space-y-3 mt-4">
             <li>
               <Link href="/">Home</Link>
             </li>

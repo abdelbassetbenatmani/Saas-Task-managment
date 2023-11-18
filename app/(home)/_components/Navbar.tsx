@@ -10,20 +10,26 @@ const Navbar = () => {
         <Logo color="dark" />
         <nav className="flex space-x-3 items-center">
           <div className="hidden md:flex space-x-3 items-center font-semibold ">
-           
-           <Link href="/" className="hover:text-sky-700 duration-300">Pricing</Link>
-           <Link href="/" className="hover:text-sky-700 duration-300">Features</Link>
-           <Link href="/" className="hover:text-sky-700 duration-300">Support</Link>
+            <Link href="/" className="hover:text-sky-700 duration-300">
+              Pricing
+            </Link>
+            <Link href="/" className="hover:text-sky-700 duration-300">
+              Features
+            </Link>
+            <Link href="/" className="hover:text-sky-700 duration-300">
+              Support
+            </Link>
           </div>
           <div className="flex space-x-3 items-center">
             <Button
+              asChild
               variant="outline"
               size="lg"
               className="text-sm rounded-full">
-              Login
+              <Link href="/sign-in">Sign in</Link>
             </Button>
-            <Button size="lg" className="text-sm rounded-full">
-              Sign Up
+            <Button size="lg" className="text-sm rounded-full" asChild>
+            <Link href="/sign-up">Sign up</Link>
             </Button>
           </div>
         </nav>
