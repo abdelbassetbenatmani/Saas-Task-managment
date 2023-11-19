@@ -2,10 +2,13 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import React from "react";
+import MobileSidebar from "./MobileSidebar";
 
 const Navbar = () => {
   return (
     <nav className="h-20 flex justify-between items-center px-6 border-b  ">
+      {/* Mobile Sidebar */}
+      <MobileSidebar />
       <div className="md:flex md:space-x-4 md:items-center">
         <div className="hidden md:block">
         <Logo color="black" />
