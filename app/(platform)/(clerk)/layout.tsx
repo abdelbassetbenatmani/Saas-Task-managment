@@ -1,10 +1,7 @@
-
-const layout = ({children}:{children:React.ReactNode}) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full flex justify-center items-center ">
-        {children}
-    </div>
-  )
-}
+    <div className="h-full flex justify-center items-center ">{children}</div>
+  );
+};
 
-export default layout
+export default layout;

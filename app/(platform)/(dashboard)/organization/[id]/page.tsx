@@ -4,7 +4,7 @@ import React from 'react'
 const OrganizationPage = () => {
   return (
     <div>
-        Organization
+        Organization uuiui
 
     </div>
   )
