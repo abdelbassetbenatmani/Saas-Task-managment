@@ -50,7 +50,16 @@ const Sidbar: FC<Props> = ({ storageKey = "taskona-sidbar" }) => {
   ) {
     return (
       <div className="w-full">
-        <Skeleton className="w-64 h-64" />
+        <div className="flex items-center justify-between mb-4">
+          <Skeleton className="w-[50%] h-10" />
+          <Skeleton className="w-10 h-10" />
+        </div>
+        <div className="space-y-2">
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+        </div>
       </div>
     );
   }
@@ -60,35 +69,27 @@ const Sidbar: FC<Props> = ({ storageKey = "taskona-sidbar" }) => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-bold">Organizations</h2>
           <Link href="/select-organization">
-
-              <Button
-                className="flex items-center justify-center"
-                variant="outline"
-              >
-                <Plus className="w-4 h-4 " />
-              </Button>
-
+            <Button
+              className="flex items-center justify-center"
+              variant="outline">
+              <Plus className="w-4 h-4 " />
+            </Button>
           </Link>
         </div>
         <Accordion
           type="multiple"
           defaultValue={defaultAccordionValue}
-          className="space-y-2"
-        >
-          {
-            userMemberships.data?.map(({organization}) => (
-              <NavItem
-                key={organization.id}
-                isActive={isOrganization?.id === organization.id}
-                isExpaned={expanded[organization.id]}
-                organization={organization as Organization}
-                onExpand={onExpand}
-              />
-            ))
-          }
-
+          className="space-y-2">
+          {userMemberships.data?.map(({ organization }) => (
+            <NavItem
+              key={organization.id}
+              isActive={isOrganization?.id === organization.id}
+              isExpaned={expanded[organization.id]}
+              organization={organization as Organization}
+              onExpand={onExpand}
+            />
+          ))}
         </Accordion>
-
       </div>
     </>
   );
