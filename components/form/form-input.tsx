@@ -1,5 +1,5 @@
 "use client"
-import { ForwardedRef, forwardRef } from "react"
+import { forwardRef } from "react"
 import { useFormStatus } from "react-dom"
 
 import { cn } from "@/lib/utils"
@@ -36,7 +36,7 @@ export const FormInput = forwardRef<HTMLInputElement,FormInputProps>(({
                     name={id}
                     type={type}
                     placeholder={placeholder}
-                    className={cn("text-sm px-2 py-1 h-7",className)}
+                    className={cn("text-sm px-2 py-1 h-9 outline-none",className)}
                     required={required}
                     disabled={disabled || pending}
                     defaultValue={defaultValue}
