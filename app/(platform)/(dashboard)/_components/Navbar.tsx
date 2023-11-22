@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import React from "react";
 import MobileSidebar from "./MobileSidebar";
+import { FormPopOver } from "@/components/form/form-popover";
 
 const Navbar = () => {
   return (
@@ -13,7 +14,14 @@ const Navbar = () => {
         <div className="hidden md:block">
         <Logo color="black" />
         </div>
+        <FormPopOver
+          side="bottom"
+          sideOffset={20}
+          align="start"
+          
+        >
         <Button>Create</Button>
+        </FormPopOver>
       </div>
       <div className="flex space-x-2 items-center">
         <OrganizationSwitcher 

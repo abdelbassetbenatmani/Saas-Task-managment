@@ -1,4 +1,5 @@
 "use client";
+import { ElementRef, useRef } from "react";
 import {
   Popover,
   PopoverContent,
@@ -11,7 +12,9 @@ import { FormInput } from "./form-input";
 import FormSubmit from "./form-submit";
 import { useAction } from "@/hooks/useAction";
 import { createBoard } from "@/actions/create-board";
-import { toast } from 'sonner'
+import { toast } from "sonner";
+import FormPicker from "./form-picker";
+import { useRouter } from "next/navigation";
 
 interface PopoverProps {
   children: React.ReactNode;
@@ -25,23 +28,27 @@ export const FormPopOver = ({
   sideOffset = 0,
   align = "center",
 }: PopoverProps) => {
+  const closeRef = useRef<ElementRef<"button">>(null);
+  const router = useRouter();
   const { excute, fieldErrors } = useAction(createBoard, {
-    onSuccess: () => {
-      toast.success("Board created successfully")
+    onSuccess: (data) => {
+      toast.success("Board created successfully");
+      closeRef.current?.click();
+      router.push(`/board/${data.id}`);
     },
-    onError: () => {
-     
-      toast.error("Board creation failed")
+    onError: (error) => {
+      toast.error(error);
     },
     onComplete: () => {
       console.log("complete");
     },
   });
-  const onSubmit = (formData:FormData) => {
-    const title = formData.get("title")as string;
-    excute({title});
-
-  }
+  const onSubmit = (formData: FormData) => {
+    const title = formData.get("title") as string;
+    const image = formData.get("image") as string;
+    
+    excute({ title, image });
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
@@ -53,13 +60,19 @@ export const FormPopOver = ({
         <span className="text-base text-center font-semibold">
           Create a board
         </span>
-        <PopoverClose asChild className="absolute right-1 top-1">
+        <PopoverClose 
+          ref={closeRef}
+        asChild className="absolute right-1 top-1">
           <Button variant="ghost" size="sm">
             <X className="w-4 h-4" />
           </Button>
         </PopoverClose>
         <form action={onSubmit} className="flex flex-col gap-y-4">
           <div className="mt-3">
+            <FormPicker
+              id="image"
+              errors={fieldErrors as Record<string, string[] | undefined>}
+            />
             <FormInput
               label="Board Name"
               placeholder="Board Name"
