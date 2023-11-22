@@ -78,7 +78,7 @@ export const FormPopOver = ({
               placeholder="Board Name"
               id="title"
               type="text"
-              className="focus:outline-none focus:border-none"
+              className=" focus-visible:outline-none focus-visible:border-none"
               errors={fieldErrors as Record<string, string[] | undefined>}
             />
           </div>
