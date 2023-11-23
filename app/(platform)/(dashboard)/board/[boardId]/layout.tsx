@@ -49,8 +49,8 @@ const BoardLayout = async ({ children,params }: { children: React.ReactNode ,par
     }}
     >
         <BoardNavBar data={board} />
-        <div className="absolute inset-0 w-full h-full bg-black opacity-30" />
-        <main className="h-full pt-20">{children}</main>
+        <div className="absolute inset-0 bg-black/30" />
+        <main className="relative h-full pt-0">{children}</main>
     </div>
   );
 };
