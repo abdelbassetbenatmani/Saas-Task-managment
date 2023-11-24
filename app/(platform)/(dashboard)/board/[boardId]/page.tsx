@@ -39,8 +39,6 @@ const BoardPage = async ({
     }
 
   })
-
-  console.log("uiguig");
   
   return (
     <div className="p-4 h-full overflow-x-auto">

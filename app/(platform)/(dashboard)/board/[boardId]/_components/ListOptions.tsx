@@ -14,6 +14,7 @@ import { deleteList } from "@/actions/delete-list";
 import { toast } from "sonner";
 import FormSubmit from "@/components/form/form-submit";
 import { ElementRef, useRef } from "react";
+import { copyList } from "@/actions/copy-list";
 type Props = {
   list: List;
   onAddCard: () => void;
@@ -30,10 +31,29 @@ const ListOptions = ({ list, onAddCard }: Props) => {
       toast.error(error);
     },
   });
+
+  const { excute: excuteCopy, isLoading:isLoadingCopy } = useAction(copyList, {
+    onSuccess: (data) => {
+      toast.success(`List "${data.title}" copied!`);
+      closeRef.current?.click();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
   const onDelete = (formData: FormData) => {
     const id = formData.get("id") as string;
     const boardId = formData.get("boardId") as string;
     excuteDelete({
+      id,
+      boardId,
+    });
+  };
+
+  const onCopy = (formData: FormData) => {
+    const id = formData.get("id") as string;
+    const boardId = formData.get("boardId") as string;
+    excuteCopy({
       id,
       boardId,
     });
@@ -65,13 +85,16 @@ const ListOptions = ({ list, onAddCard }: Props) => {
             onClick={() => {}}>
             Add to List
           </Button>
-          <Button
-            variant="ghost"
-            // disabled={isLoading}
-            className="w-full py-2 justify-start font-normal text-sm"
-            onClick={() => {}}>
-            Copy List
-          </Button>
+          <form action={onCopy}>
+            <input type="hidden" name="id" value={list.id} />
+            <input type="hidden" name="boardId" value={list.boardId} />
+            <FormSubmit
+              variant="ghost"
+              disabled={isLoadingCopy}
+              className="w-full py-2 justify-start font-normal text-sm ">
+              Copy List
+            </FormSubmit>
+          </form>
           <Separator />
           <form action={onDelete}>
             <input type="hidden" name="id" value={list.id} />
