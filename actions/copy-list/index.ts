@@ -7,50 +7,48 @@ import { creatSafeAction } from "@/lib/create-safe-action";
 import { copyListShema } from "./shema";
 
 const action = async (data: InputType): Promise<OutputType> => {
-    const { userId,orgId } = auth();
-    if (!userId || !orgId) {
+  const { userId, orgId } = auth();
+  if (!userId || !orgId) {
+    return {
+      error: "Unauthorized",
+    };
+  }
+  let list;
+  const { id, boardId } = data;
+  try {
+    // find unique the list item
+    const listCopy = await db.list.findUnique({
+      where: {
+        id,
+        boardId,
+        board: {
+          orgId,
+        },
+      },
+      include: {
+        cards: true,
+      },
+    });
+    if (!listCopy) {
       return {
-        error: "Unauthorized",
+        error: "List not found",
       };
     }
-    let list;
-    const { id,boardId } = data;
-    try {
-      // find unique the list item 
-      const listCopy = await db.list.findUnique({
-        where: {
-          id,
-          boardId,
-          board:{
-            orgId
-          }
-
-        },
-        include:{
-          cards:true
-        }
-      });
-      if (!listCopy) {
-        return {
-          error: "List not found",
-        };
-      }
-        // find last order number in list
+    // find last order number in list
     const lastList = await db.list.findFirst({
       where: {
-        boardId: boardId 
-      } ,
+        boardId: boardId,
+      },
       orderBy: {
         order: "desc",
       },
       select: {
         order: true,
-      
-      }
+      },
     });
-    const lastOrder = lastList ? lastList.order +1 : 1;
-    const cardArray:any = listCopy.cards;
-    if(cardArray.length > 0) {
+    const lastOrder = lastList ? lastList.order + 1 : 1;
+    const cardArray: any = listCopy.cards;
+    if (cardArray.length > 0) {
       // create list
       list = await db.list.create({
         data: {
@@ -58,21 +56,20 @@ const action = async (data: InputType): Promise<OutputType> => {
           title: `${listCopy.title} - Copy`,
           order: lastOrder,
           cards: {
-            createMany:{
-              data: cardArray.map((card:any) => ({
+            createMany: {
+              data: cardArray.map((card: any) => ({
                 title: card.title,
                 description: card.description,
                 order: card.order,
               })),
-            
-            }
-          }
+            },
+          },
         },
         include: {
           cards: true,
         },
       });
-    }else{
+    } else {
       list = await db.list.create({
         data: {
           boardId: listCopy.boardId,
@@ -84,17 +81,13 @@ const action = async (data: InputType): Promise<OutputType> => {
         },
       });
     }
-    
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+  revalidatePath(`/board/${boardId}`);
+  return { data: list };
+};
 
-
-      
-    } catch (error:any) {
-      return {
-        error: error.message,
-      };
-    }
-    revalidatePath(`/board/${boardId}`);
-    return { data: list };
-  };
-  
-  export const copyList = creatSafeAction(copyListShema,action);
+export const copyList = creatSafeAction(copyListShema, action);

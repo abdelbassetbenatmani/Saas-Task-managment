@@ -44,13 +44,6 @@ const BoardPage = async ({
     <div className="p-4 h-full overflow-x-auto">
       
       <ListContainer lists={lists}  boardId={params.boardId}/>
-      {/* map in lists and show title in p tag */}  
-      {
-        lists.map((list) => (
-          <p>{list.title}</p>
-        ))
-      }
-
     </div>
   )
 }

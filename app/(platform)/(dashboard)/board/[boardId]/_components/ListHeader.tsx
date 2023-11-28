@@ -9,9 +9,10 @@ import ListOptions from "./ListOptions";
 
 type Props = {
   list: List;
+  onAddCard: () => void;
 };
 
-const ListHeader = ({ list }: Props) => {
+const ListHeader = ({ list,onAddCard }: Props) => {
   const [title, setTitle] = useState(list.title);
   const { excute } = useAction(updateList, {
     onSuccess: (data) => {
@@ -75,7 +76,7 @@ const ListHeader = ({ list }: Props) => {
       <h3 className="p-4 font-semibold text-base " onClick={enableEditing}>
         {title}
       </h3>
-      <ListOptions onAddCard={() => {}} list={list} />
+      <ListOptions onAddCard={onAddCard} list={list} />
     </div>
   );
 };
