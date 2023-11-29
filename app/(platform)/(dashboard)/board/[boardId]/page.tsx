@@ -1,7 +1,6 @@
 import db from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
-import React from 'react'
 import ListContainer from './_components/ListContainer'
 
 
@@ -42,7 +41,6 @@ const BoardPage = async ({
   
   return (
     <div className="p-4 h-full overflow-x-auto">
-      
       <ListContainer lists={lists}  boardId={params.boardId}/>
     </div>
   )
