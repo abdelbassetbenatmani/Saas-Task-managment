@@ -5,6 +5,10 @@ import ListForm from "./ListForm";
 import ListItem from "./ListItem";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { useState } from "react";
+import { useAction } from "@/hooks/useAction";
+import { updateListOrder } from "@/actions/update-list-order";
+import { toast } from "sonner";
+import { updateCardOrder } from "@/actions/update-card-order";
 
 type Props = {
   boardId: string;
@@ -19,9 +23,25 @@ function reOrder<T>(list: T[], startIndex: number, endIndex: number) {
 }
 
 const ListContainer = ({ boardId, lists }: Props) => {
-  const [data, setData] = useState(lists);
   const [orderedData, setOrderedData] = useState(lists);
 
+  const {excute:executeUpdateListOrder} = useAction(updateListOrder,{
+    onSuccess: (data) => {
+      toast.success("List order updated successfully");
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  })
+
+  const {excute:executeUpdateCardOrder} = useAction(updateCardOrder,{
+    onSuccess: (data) => {
+      toast.success("Card order updated successfully");
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  })
   const onDragEnd = (result: any) => {
     const { destination, source, type } = result;
 
@@ -46,13 +66,12 @@ const ListContainer = ({ boardId, lists }: Props) => {
       ).map((item, index) => ({ ...item, order: index }));
 
       setOrderedData(items);
-      // executeUpdateListOrder({ items, boardId });
+      executeUpdateListOrder({ items, boardId });
     }
 
     // User moves a card
     if (type === "card") {
       let newOrderedData = [...orderedData];
-
       // Source and destination list
       const sourceList = newOrderedData.find(list => list.id === source.droppableId);
       const destList = newOrderedData.find(list => list.id === destination.droppableId);
@@ -60,17 +79,14 @@ const ListContainer = ({ boardId, lists }: Props) => {
       if (!sourceList || !destList) {
         return;
       }
-
       // Check if cards exists on the sourceList
       if (!sourceList.cards) {
         sourceList.cards = [];
       }
-
       // Check if cards exists on the destList
       if (!destList.cards) {
         destList.cards = [];
       }
-
       // Moving the card in the same list
       if (source.droppableId === destination.droppableId) {
         const reorderedCards = reOrder(
@@ -86,10 +102,10 @@ const ListContainer = ({ boardId, lists }: Props) => {
         sourceList.cards = reorderedCards;
 
         setOrderedData(newOrderedData);
-        // executeUpdateCardOrder({
-        //   boardId: boardId,
-        //   items: reorderedCards,
-        // });
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: reorderedCards,
+        });
         // User moves the card to another list
       } else {
         // Remove card from the source list
@@ -111,10 +127,10 @@ const ListContainer = ({ boardId, lists }: Props) => {
         });
 
         setOrderedData(newOrderedData);
-        // executeUpdateCardOrder({
-        //   boardId: boardId,
-        //   items: destList.cards,
-        // });
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: destList.cards,
+        });
       }
     }
   }
