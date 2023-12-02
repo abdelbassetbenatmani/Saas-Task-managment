@@ -1,10 +1,17 @@
+import ModalProviders from "@/components/providers/modalProviders";
+import QueryProviders from "@/components/providers/queryProviders";
 import { ClerkProvider } from "@clerk/nextjs";
-import {Toaster} from "sonner"
+import { Toaster } from "sonner";
 const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
-  return <ClerkProvider>
-    <Toaster position="top-center"/>
-    {children}
-    </ClerkProvider>;
+  return (
+    <ClerkProvider>
+      <QueryProviders>
+        <Toaster position="top-center" />
+        <ModalProviders />
+        {children}
+      </QueryProviders>
+    </ClerkProvider>
+  );
 };
 
 export default PlatformLayout;

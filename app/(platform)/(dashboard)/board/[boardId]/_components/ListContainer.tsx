@@ -4,7 +4,7 @@ import { ListWithCards } from "@/types";
 import ListForm from "./ListForm";
 import ListItem from "./ListItem";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAction } from "@/hooks/useAction";
 import { updateListOrder } from "@/actions/update-list-order";
 import { toast } from "sonner";
@@ -24,6 +24,12 @@ function reOrder<T>(list: T[], startIndex: number, endIndex: number) {
 
 const ListContainer = ({ boardId, lists }: Props) => {
   const [orderedData, setOrderedData] = useState(lists);
+  
+  useEffect(() => {
+    setOrderedData(lists)
+  }, [lists])
+  
+  
 
   const {excute:executeUpdateListOrder} = useAction(updateListOrder,{
     onSuccess: (data) => {
