@@ -69,7 +69,7 @@ const CardHeader = ({ data }: Props) => {
   );
 };
 
-CardHeader.Skeleton = () => {
+CardHeader.Skeleton =function HeaderSkeleton ()  {
   return (
     <div className="flex items-start gap-x-3 mb-6">
       <Skeleton className="h-6 w-6 mt-1 bg-neutral-200" />

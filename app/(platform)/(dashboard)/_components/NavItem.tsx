@@ -23,7 +23,7 @@ type Props = {
   organization: Organization;
 };
 
-const NavItem = ({ isExpaned, isActive, onExpand, organization }: Props) => {
+export const NavItem = ({ isExpaned, isActive, onExpand, organization }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const routes = [
@@ -93,9 +93,8 @@ const NavItem = ({ isExpaned, isActive, onExpand, organization }: Props) => {
   );
 };
 
-export default NavItem;
 
-NavItem.Skeleton = function () {
+NavItem.Skeleton = function SkeletonNavItem() {
   return (
     <div className="w-full">
       <div className="flex items-center gap-x-3">

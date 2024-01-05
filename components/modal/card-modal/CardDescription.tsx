@@ -104,7 +104,7 @@ const CardDescription = ({ data }: Props) => {
   );
 };
 
-CardDescription.Skeleton = () => {
+CardDescription.Skeleton = function DescriptionSkeleton()  {
   return (
     <div className="flex items-start gap-x-3 mb-6">
       <Skeleton className="h-6 w-6 mt-1 bg-neutral-200" />
