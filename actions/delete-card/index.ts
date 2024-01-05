@@ -5,6 +5,8 @@ import { InputType, OutputType } from "./types";
 import db from "@/lib/db";
 import { creatSafeAction } from "@/lib/create-safe-action";
 import { deleteCardShema } from "./shema";
+import createAudit from "@/lib/create-audit";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 const action = async (data: InputType): Promise<OutputType> => {
   const { userId, orgId } = auth();
@@ -25,6 +27,12 @@ const action = async (data: InputType): Promise<OutputType> => {
           },
         },
       } as any,
+    });
+    await createAudit({
+      entityId: card.id,
+      entityTitle: card.title,
+      entityType: ENTITY_TYPE.CARD,
+      action: ACTION.DELETE,
     });
 
   } catch (error: any) {

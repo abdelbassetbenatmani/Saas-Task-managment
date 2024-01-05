@@ -5,6 +5,10 @@ import { InputType, OutputType } from "./types";
 import db from "@/lib/db";
 import { creatSafeAction } from "@/lib/create-safe-action";
 import { createBoardShema } from "./shema";
+import createAudit from "@/lib/create-audit";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { incrementOrganizationBoardCount,isAvailableOrganizationBoard } from "@/lib/organization-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const action = async (data: InputType): Promise<OutputType> => {
   const { userId,orgId } = auth();
@@ -13,6 +17,16 @@ const action = async (data: InputType): Promise<OutputType> => {
       error: "Unauthorized",
     };
   }
+
+
+  const isAvailable = await isAvailableOrganizationBoard();
+  const isPro = await checkSubscription()
+  if (!isAvailable && !isPro) {
+    return {
+      error: "You have reached the maximum number of boards for your organization. Please upgrade your plan to create more boards.",
+    };
+  }
+
   let board;
   const { title ,image } = data;
 
@@ -39,6 +53,15 @@ const action = async (data: InputType): Promise<OutputType> => {
         imageUserName,
         imageLinkHTML,
       } as any
+    });
+
+    if(!isPro) await incrementOrganizationBoardCount();
+    
+    await createAudit({
+      entityId: board.id,
+      entityTitle: board.title,
+      entityType: ENTITY_TYPE.BOARD,
+      action: ACTION.CREATE,
     });
   } catch (error:any) {
     return {
