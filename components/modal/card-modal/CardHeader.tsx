@@ -1,3 +1,4 @@
+"use client";
 import { updateCard } from "@/actions/update-card";
 import { FormInput } from "@/components/form/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,7 +14,7 @@ type Props = {
   data: CardWithList;
 };
 
-const CardHeader = ({ data }: Props) => {
+export const CardHeader = ({ data }: Props) => {
   const queryClient = useQueryClient();
   const params = useParams();
   const [title, setTitle] = useState(data.title);
@@ -81,4 +82,4 @@ CardHeader.Skeleton =function HeaderSkeleton ()  {
   );
 };
 
-export default CardHeader;
+

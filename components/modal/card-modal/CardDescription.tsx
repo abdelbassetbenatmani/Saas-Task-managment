@@ -17,7 +17,7 @@ type Props = {
   data: CardWithList;
 };
 
-const CardDescription = ({ data }: Props) => {
+export const CardDescription = ({ data }: Props) => {
   const [editing, setEditing] = useState(false);
   const formRef = useRef<ElementRef<"form">>(null);
   const textEreaRef = useRef<ElementRef<"textarea">>(null);
@@ -116,4 +116,3 @@ CardDescription.Skeleton = function DescriptionSkeleton()  {
   );
 };
 
-export default CardDescription;

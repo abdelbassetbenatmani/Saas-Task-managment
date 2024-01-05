@@ -14,7 +14,7 @@ type Props = {
   data: CardWithList;
 };
 
-const Actions = ({ data }: Props) => {
+export const Actions = ({ data }: Props) => {
   const params = useParams();
   const cardModal = useCardModal();
   const { excute: ExcuteCopy, isLoading: copyLoading } = useAction(copyCard, {
@@ -86,4 +86,3 @@ Actions.Skeleton = function ActionsSkeleton() {
   );
 };
 
-export default Actions;

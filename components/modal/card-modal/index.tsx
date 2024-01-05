@@ -4,12 +4,12 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/useCardModal";
 import { CardWithList } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import CardHeader from "./CardHeader";
-import CardDescription from "./CardDescription";
-import Actions from "./Actions";
+
 import { AuditLog } from "@prisma/client";
 import Activity from "./Activity";
+import { CardHeader } from "./CardHeader";
+import { CardDescription } from "./CardDescription";
+import { Actions } from "./Actions";
 
 const CardModal = () => {
   const id = useCardModal((state) => state.id);

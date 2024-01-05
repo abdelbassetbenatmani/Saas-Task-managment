@@ -9,8 +9,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
-import NavItem, { Organization } from "./NavItem";
+import { NavItem, Organization } from "./NavItem";
 
 interface Props {
   storageKey?: string;
